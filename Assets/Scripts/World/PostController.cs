@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PostController : MonoBehaviour
 {
@@ -22,8 +20,8 @@ public class PostController : MonoBehaviour
         else // not enough stock
         {
             // Handing the generation of products is out of the scope of this test
-            m_stock = 0;
-            return true;
+            SceneController.sIntance.ResetScene();
+            return false;
         }
     }
 

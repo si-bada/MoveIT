@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Mouse control
 // Passes the mouse activity when interacting with InteractableElements
@@ -17,6 +15,10 @@ public class PlayerController : MonoBehaviour
 
     public Ray mouseRay { get => m_mouseRay; private set => m_mouseRay = value; }
     public WorkerController activeWorker { get => m_activeWorker; private set => m_activeWorker = value; }
+
+    private void Start()
+    {
+    }
 
     void OnValidate()
     {

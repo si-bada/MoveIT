@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 // Simple draggable interaction, while the mouse button is pressed, updates the root position of this object with the one obtained by raycasting against the floor

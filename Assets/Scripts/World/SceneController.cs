@@ -1,12 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
+    public static SceneController sIntance;
+
     [SerializeField] WorkerController[] m_workers;
     [SerializeField] Vector3[] m_startPositions;
     [SerializeField] bool m_autoStart;
+
+    private void Awake()
+    {
+        if (sIntance != null)
+            sIntance = null;
+        sIntance = this;
+    }
 
     private void Start()
     {
@@ -34,5 +42,9 @@ public class SceneController : MonoBehaviour
             m_workers[w].ResetPath();
             m_workers[w].transform.position = m_startPositions[w];
         }
+    }
+    public void ResetScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }

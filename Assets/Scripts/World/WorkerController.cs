@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +12,7 @@ public class WorkerController : MonoBehaviour
     [Header("Control")]
     [SerializeField] bool m_previewPath = false;
     [SerializeField] PostController[] m_targets;
+    [SerializeField] GameObject stock;
 
     [Header("Status")]
     [SerializeField] bool m_isCarryingItems = false;
@@ -58,19 +58,21 @@ public class WorkerController : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, m_currentTargetBestPosition) < 0.5f)
             {
+                Debug.LogWarning("waiting");
+                yield return new WaitForSeconds(1.0f);
+
                 if (m_isCarryingItems)
                 {
-                    Debug.Log("TODO: drop elements into the PostController");
+                    Debug.LogWarning("deposit stock");
+                    depositStock();
                 }
                 else
                 {
-                    Debug.Log("TODO: pick elements from the PostController");
+                    Debug.LogWarning("go carry stock");
+                    carryStock();
                 }
-
-                //@TODO: wait 1 second
                 m_isCarryingItems = !m_isCarryingItems;
-                m_currentTarget = (m_currentTarget + 1) % m_targets.Length;
-                Target = m_targets[m_currentTarget].depot;
+                switchTarget();
                 RecomputePath();
                 GoToTarget();
             }
@@ -82,7 +84,30 @@ public class WorkerController : MonoBehaviour
         }
     }
 
-    void RecomputePath()
+    void carryStock()
+    {
+        if(m_targets[m_currentTarget].Pick(1))
+        {
+            stock.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Stock Empty !");
+        }
+    }
+    void depositStock()
+    {
+        stock.SetActive(false);
+        m_targets[m_currentTarget].Drop(1);
+    }
+
+    void switchTarget()
+    {
+        m_currentTarget = (m_currentTarget + 1) % m_targets.Length;
+        Target = m_targets[m_currentTarget].depot;
+    }
+
+    public void RecomputePath()
     {
         if (m_path == null)
         {
