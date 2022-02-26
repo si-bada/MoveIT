@@ -14,10 +14,20 @@ public class MovableElement : InteractableElement
         RaycastHit hitFloor;
         if (Physics.Raycast(controller.mouseRay, out hitFloor, float.MaxValue, GlobalOptions.main.FloorLayer))
         {
-
-            m_root.transform.position = hitFloor.point;
-
+            if(hitFloor.transform.name.Equals("Room floor"))
+            {
+                m_root.transform.position = hitFloor.point;
+            }
+            Debug.LogWarning(hitFloor.transform.name);
             //@TODO: implement rotation
+            if(Input.GetKey(GlobalOptions.main.RotateLeft))
+            {
+                m_root.transform.Rotate(0, Input.GetAxis("Horizontal") * GlobalOptions.main.RotationSpeed * Time.deltaTime, 0);
+            }
+            if(Input.GetKey(GlobalOptions.main.RotateRight))
+            {
+                m_root.transform.Rotate(0, Input.GetAxis("Horizontal") * GlobalOptions.main.RotationSpeed * Time.deltaTime, 0);
+            }
         }
     }
 
